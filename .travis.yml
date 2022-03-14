@@ -5,6 +5,8 @@ rvm:
   - 2.4.9
   - 2.5.7
   - 2.6.5
+  - 3.0.0
+  - 3.1.0
 
 # This prevents testing branches that are created just for PRs
 branches:
