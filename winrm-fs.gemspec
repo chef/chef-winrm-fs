@@ -27,11 +27,11 @@ Gem::Specification.new do |s|
 
   s.bindir = 'bin'
   s.executables = ['rwinrmcp']
-  s.required_ruby_version = '>= 2.5.0'
+  s.add_runtime_dependency 'chef-winrm', '>= 2.3.10'
+  s.required_ruby_version '>= 3.0'
   s.add_runtime_dependency 'erubi', '>= 1.7'
   s.add_runtime_dependency 'logging', ['>= 1.6.1', '< 3.0']
   s.add_runtime_dependency 'rubyzip', '~> 2.0'
-  s.add_runtime_dependency 'chef-winrm', '>= 2.3.10'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'rake', '>= 13.2.1'
   s.add_development_dependency 'rspec', '~> 3.0'
