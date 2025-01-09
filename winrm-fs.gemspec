@@ -6,7 +6,7 @@ version = File.read(File.expand_path('VERSION', __dir__)).strip
 
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
-  s.name = 'winrm-fs'
+  s.name = 'chef-winrm-fs'
   s.version = version
   s.date = Date.today.to_s
 
