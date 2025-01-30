@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'winrm-fs/core/tmp_zip'
+require 'chef-winrm-fs/core/tmp_zip'
 
 describe WinRM::FS::Core::TmpZip do
   let(:src_dir) do

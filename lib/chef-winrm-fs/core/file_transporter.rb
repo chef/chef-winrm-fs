@@ -24,7 +24,7 @@ require 'securerandom' unless defined?(SecureRandom)
 require 'stringio' unless defined?(StringIO)
 
 require 'winrm/exceptions'
-require 'winrm-fs/core/tmp_zip'
+require 'chef-winrm-fs/core/tmp_zip'
 
 module WinRM
   module FS
