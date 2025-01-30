@@ -22,7 +22,7 @@
 $LOAD_PATH.push File.expand_path('../../lib', __FILE__)
 
 require 'io/console'
-require 'winrm-fs'
+require 'chef-winrm-fs'
 
 def help_msg
   puts 'Usage: rwinrmcp sourcefile user@host:directory/targetfile'

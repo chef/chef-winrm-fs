@@ -18,8 +18,8 @@
 require 'winrm' unless defined?(WinRM::Connection)
 require 'logger'
 require 'pathname' unless defined?(Pathname)
-require_relative 'winrm-fs/exceptions'
-require_relative 'winrm-fs/file_manager'
+require_relative 'chef-winrm-fs/exceptions'
+require_relative 'chef-winrm-fs/file_manager'
 
 module WinRM
   # WinRM File System

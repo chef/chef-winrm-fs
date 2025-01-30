@@ -2,7 +2,7 @@
 
 require 'rubygems' unless defined?(Gem)
 require 'bundler/setup'
-require 'winrm-fs'
+require 'chef-winrm-fs'
 require 'json' unless defined?(JSON)
 require_relative 'matchers'
 

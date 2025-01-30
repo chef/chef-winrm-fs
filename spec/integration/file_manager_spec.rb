@@ -82,7 +82,7 @@ describe WinRM::FS::FileManager do
     let(:download_dir) { File.join(spec_dir, 'temp') }
     let(:dest_file) { Pathname.new(File.join(dest_dir, File.basename(this_file))) }
     let(:root_dir) { File.expand_path('../../', File.dirname(__FILE__)) }
-    let(:winrm_fs_dir) { File.join(root_dir, 'lib/winrm-fs') }
+    let(:winrm_fs_dir) { File.join(root_dir, 'lib/chef-winrm-fs') }
 
     before(:each) do
       expect(subject.delete(dest_dir)).to be true
@@ -239,9 +239,9 @@ describe WinRM::FS::FileManager do
 
   context 'upload directory' do
     let(:root_dir) { File.expand_path('../../', File.dirname(__FILE__)) }
-    let(:winrm_fs_dir) { File.join(root_dir, 'lib/winrm-fs') }
-    let(:core_dir) { File.join(root_dir, 'lib/winrm-fs/core') }
-    let(:scripts_dir) { File.join(root_dir, 'lib/winrm-fs/scripts') }
+    let(:winrm_fs_dir) { File.join(root_dir, 'lib/chef-winrm-fs') }
+    let(:core_dir) { File.join(root_dir, 'lib/chef-winrm-fs/core') }
+    let(:scripts_dir) { File.join(root_dir, 'lib/chef-winrm-fs/scripts') }
 
     it 'copies the directory contents recursively when directory does not exist' do
       bytes_uploaded = subject.upload(winrm_fs_dir, dest_dir)

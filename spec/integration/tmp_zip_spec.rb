@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/winrm-fs/core/tmp_zip'
+require_relative '../../lib/chef-winrm-fs/core/tmp_zip'
 
 describe WinRM::FS::Core::TmpZip do
-  let(:winrm_fs_dir) { File.expand_path('../../lib/winrm-fs', File.dirname(__FILE__)) }
+  let(:winrm_fs_dir) { File.expand_path('../../lib/chef-winrm-fs', File.dirname(__FILE__)) }
 
   subject { WinRM::FS::Core::TmpZip.new(winrm_fs_dir) }
 
