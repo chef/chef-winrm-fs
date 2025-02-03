@@ -6,7 +6,7 @@
 ## Uploading files
 Files may be copied from the local machine to the winrm endpoint. Individual files or directories, as well as arrays of files and directories may be specified. Data from a `StringIO` object may also be uploaded to a remote file.
 ```ruby
-require 'winrm-fs'
+require 'chef-winrm-fs'
 
 connection = WinRM::Connection.new(...
 file_manager = WinRM::FS::FileManager.new(connection)
