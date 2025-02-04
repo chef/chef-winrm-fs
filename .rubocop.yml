@@ -4,7 +4,7 @@ AllCops:
   
 Naming/FileName:
   Exclude:
-    - 'lib/winrm-fs.rb'
+    - 'lib/chef-winrm-fs.rb'
 
 Style/Encoding:
   Enabled: true
