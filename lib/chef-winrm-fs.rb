@@ -15,11 +15,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'chef-winrm' unless defined?(WinRM::Connection)
-require 'logger'
-require 'pathname' unless defined?(Pathname)
-require_relative 'chef-winrm-fs/exceptions'
-require_relative 'chef-winrm-fs/file_manager'
+require "chef-winrm" unless defined?(WinRM::Connection)
+require "logger"
+require "pathname" unless defined?(Pathname)
+require_relative "chef-winrm-fs/exceptions"
+require_relative "chef-winrm-fs/file_manager"
 
 module WinRM
   # WinRM File System

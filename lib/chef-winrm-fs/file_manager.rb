@@ -15,9 +15,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'chef-winrm' unless defined?(WinRM::Connection)
-require_relative 'scripts/scripts'
-require_relative 'core/file_transporter'
+require "chef-winrm" unless defined?(WinRM::Connection)
+require_relative "scripts/scripts"
+require_relative "core/file_transporter"
 
 module WinRM
   module FS
@@ -34,9 +34,9 @@ module WinRM
       # otherwise ''
       # @param [String] The remote file path
       # @parms [String] The digest method
-      def checksum(path, digest = 'SHA1')
+      def checksum(path, digest = "SHA1")
         @logger.debug("checksum with #{digest}: #{path}")
-        script = WinRM::FS::Scripts.render('checksum', path: path, digest: digest)
+        script = WinRM::FS::Scripts.render("checksum", path: path, digest: digest)
         ps_run(script).exitcode == 0
       end
 
@@ -45,7 +45,7 @@ module WinRM
       # @return [Boolean] True if successful, otherwise false
       def create_dir(path)
         @logger.debug("create_dir: #{path}")
-        script = WinRM::FS::Scripts.render('create_dir', path: path)
+        script = WinRM::FS::Scripts.render("create_dir", path: path)
         ps_run(script).exitcode == 0
       end
 
@@ -54,7 +54,7 @@ module WinRM
       # @return [Boolean] True if successful, otherwise False
       def delete(path)
         @logger.debug("deleting: #{path}")
-        script = WinRM::FS::Scripts.render('delete', path: path)
+        script = WinRM::FS::Scripts.render("delete", path: path)
         ps_run(script).exitcode == 0
       end
 
@@ -70,7 +70,7 @@ module WinRM
 
         return false if output.exitcode >= 1
 
-        File.open(local_path, 'wb') do |fd|
+        File.open(local_path, "wb") do |fd|
           out = _write_file(fd, output)
           index += out.length
           until out.empty?
@@ -86,12 +86,12 @@ module WinRM
       # rubocop:enable Metrics/MethodLength
 
       def _output_from_file(remote_path, chunk_size, index)
-        script = WinRM::FS::Scripts.render('download', path: remote_path, chunk_size: chunk_size, index: index)
+        script = WinRM::FS::Scripts.render("download", path: remote_path, chunk_size: chunk_size, index: index)
         ps_run(script)
       end
 
       def _write_file(tofd, output)
-        contents = output.stdout.gsub('\n\r', '')
+        contents = output.stdout.gsub('\n\r', "")
         out = Base64.decode64(contents)
         out = out[0, out.length - 1] if out.end_with? "\x00"
         return out if out.empty?
@@ -105,7 +105,7 @@ module WinRM
       # @return [Boolean] True if the file/dir exists, otherwise false.
       def exists?(path)
         @logger.debug("exists?: #{path}")
-        script = WinRM::FS::Scripts.render('exists', path: path)
+        script = WinRM::FS::Scripts.render("exists", path: path)
         ps_run(script).exitcode == 0
       end
 
@@ -114,7 +114,7 @@ module WinRM
       # @return [String] Full path to the temp directory
       def temp_dir
         @temp_dir ||= begin
-          ps_run('$env:TEMP').stdout.chomp.tr('\\', '/')
+          ps_run("$env:TEMP").stdout.chomp.tr("\\", "/")
         end
       end
 

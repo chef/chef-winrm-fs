@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'erubi'
+require "erubi"
 
 module WinRM
   module FS

@@ -17,22 +17,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'chef-winrm-fs/core/tmp_zip'
+require "chef-winrm-fs/core/tmp_zip"
 
 describe WinRM::FS::Core::TmpZip do
   let(:src_dir) do
     tmpdir = Pathname.new(Dir.mktmpdir)
     @tmpdirs << tmpdir
-    src_dir = tmpdir.join('src')
-    sub_dir = src_dir.join('veggies')
+    src_dir = tmpdir.join("src")
+    sub_dir = src_dir.join("veggies")
 
     src_dir.mkpath
-    create_local_file(src_dir.join('apple.txt'), 'appleapple')
-    create_local_file(src_dir.join('banana.txt'), 'bananabanana')
-    create_local_file(src_dir.join('cherry.txt'), 'cherrycherry')
-    create_local_file(src_dir.join('.dotfile'), 'dotfiledotfile')
+    create_local_file(src_dir.join("apple.txt"), "appleapple")
+    create_local_file(src_dir.join("banana.txt"), "bananabanana")
+    create_local_file(src_dir.join("cherry.txt"), "cherrycherry")
+    create_local_file(src_dir.join(".dotfile"), "dotfiledotfile")
     sub_dir.mkpath
-    create_local_file(sub_dir.join('carrot.txt'), 'carrotcarrot')
+    create_local_file(sub_dir.join("carrot.txt"), "carrotcarrot")
     src_dir
   end
 
@@ -45,11 +45,11 @@ describe WinRM::FS::Core::TmpZip do
     tmp_zip.unlink if tmp_zip.path
   end
 
-  it '#path returns path to created zip file' do
+  it "#path returns path to created zip file" do
     expect(tmp_zip.path.file?).to eq true
   end
 
-  it '#unlink removes the file' do
+  it "#unlink removes the file" do
     path = tmp_zip.path
     expect(path.file?).to eq true
 
@@ -59,24 +59,24 @@ describe WinRM::FS::Core::TmpZip do
     expect(tmp_zip.path).to eq nil
   end
 
-  describe 'for a zip file containing the base directory' do
+  describe "for a zip file containing the base directory" do
     let(:tmp_zip) { WinRM::FS::Core::TmpZip.new(src_dir) }
 
-    it 'contains the input entries' do
+    it "contains the input entries" do
       zip = Zip::File.new(tmp_zip.path)
 
       expect(zip.map(&:name).sort).to eq(
-        ['.dotfile', 'apple.txt', 'banana.txt', 'cherry.txt', 'veggies/carrot.txt']
+        [".dotfile", "apple.txt", "banana.txt", "cherry.txt", "veggies/carrot.txt"]
       )
-      expect(zip.read('apple.txt')).to eq 'appleapple'
-      expect(zip.read('banana.txt')).to eq 'bananabanana'
-      expect(zip.read('cherry.txt')).to eq 'cherrycherry'
-      expect(zip.read('.dotfile')).to eq 'dotfiledotfile'
-      expect(zip.read('veggies/carrot.txt')).to eq 'carrotcarrot'
+      expect(zip.read("apple.txt")).to eq "appleapple"
+      expect(zip.read("banana.txt")).to eq "bananabanana"
+      expect(zip.read("cherry.txt")).to eq "cherrycherry"
+      expect(zip.read(".dotfile")).to eq "dotfiledotfile"
+      expect(zip.read("veggies/carrot.txt")).to eq "carrotcarrot"
     end
   end
 
   def create_local_file(path, content)
-    path.open('wb') { |file| file.write(content) }
+    path.open("wb") { |file| file.write(content) }
   end
 end
