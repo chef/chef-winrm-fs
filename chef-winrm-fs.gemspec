@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "erubi", ">= 1.7"
   s.add_runtime_dependency "logging", [">= 1.6.1", "< 3.0"]
   s.add_runtime_dependency "rubyzip", "~> 2.0"
+  s.add_runtime_dependency "csv", "~> 3.3"
   s.add_development_dependency "pry"
   s.add_development_dependency "rake", ">= 13.2.1"
   s.add_development_dependency "rspec", "~> 3.0"
