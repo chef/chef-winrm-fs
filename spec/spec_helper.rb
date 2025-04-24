@@ -14,7 +14,7 @@ module ConnectionHelper
 
   def config
     @config ||= begin
-      cfg = symbolize_keys(YAML.safe_load(File.read(winrm_config_path)))
+      cfg = symbolize_keys(YAML.safe_load_file(winrm_config_path))
       cfg[:basic_auth_only] = true unless cfg[:transport].eql? :kerberos
       merge_environment!(cfg)
       cfg
