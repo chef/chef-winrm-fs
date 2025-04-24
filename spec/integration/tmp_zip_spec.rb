@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/chef-winrm-fs/core/tmp_zip'
+require_relative "../../lib/chef-winrm-fs/core/tmp_zip"
 
 describe WinRM::FS::Core::TmpZip do
-  let(:winrm_fs_dir) { File.expand_path('../../lib/winrm-fs', File.dirname(__FILE__)) }
+  let(:winrm_fs_dir) { File.expand_path("../../lib/winrm-fs", File.dirname(__FILE__)) }
 
   subject { WinRM::FS::Core::TmpZip.new(winrm_fs_dir) }
 
-  context 'temp file creation' do
-    it 'should create a temp file on disk' do
+  context "temp file creation" do
+    it "should create a temp file on disk" do
       path = subject.path
       expect(File.exist?(path)).to be true
       subject.unlink
@@ -16,12 +16,12 @@ describe WinRM::FS::Core::TmpZip do
     end
   end
 
-  context 'create zip' do
-    it 'should add all files in directory to the zip recursively' do
+  context "create zip" do
+    it "should add all files in directory to the zip recursively" do
       expect(subject).to contain_zip_entries([
-                                               'exceptions.rb',
-                                               'core/tmp_zip.rb',
-                                               'scripts/checksum.ps1.erb'
+                                               "exceptions.rb",
+                                               "core/tmp_zip.rb",
+                                               "scripts/checksum.ps1.erb",
                                              ])
     end
   end

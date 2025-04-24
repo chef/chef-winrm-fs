@@ -16,15 +16,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+$VERBOSE = true
 
-require 'benchmark' unless defined?(Benchmark)
-require 'csv' unless defined?(CSV)
-require 'digest' unless defined?(Digest)
-require 'securerandom' unless defined?(SecureRandom)
-require 'stringio' unless defined?(StringIO)
+require "benchmark" unless defined?(Benchmark)
 
-require 'chef-winrm/exceptions'
-require 'chef-winrm-fs/core/tmp_zip'
+# require "pry"
+# require "pry-byebug" if defined?(PryByebug)
+# binding.pry
+
+require "csv" unless defined?(CSV)
+require "digest" unless defined?(Digest)
+require "securerandom" unless defined?(SecureRandom)
+require "stringio" unless defined?(StringIO)
+
+require "chef-winrm/exceptions"
+require "chef-winrm-fs/core/tmp_zip"
 
 module WinRM
   module FS
@@ -38,7 +44,7 @@ module WinRM
       # Exception for the case where upload source contains more than one
       # StringIO object, or a combination of file/directory paths and StringIO object
       class UploadSourceError < StandardError
-        def initialize(msg = 'Only a single StringIO object may be uploaded.')
+        def initialize(msg = "Only a single StringIO object may be uploaded.")
           super
         end
       end
@@ -126,7 +132,7 @@ module WinRM
         # @return [String] the Array pack template for Base64 encoding a stream
         #   of data
         # @api private
-        BASE64_PACK = 'm0'.freeze
+        BASE64_PACK = "m0".freeze
 
         # @return [String] the directory where temporary upload artifacts are
         #   persisted
@@ -148,9 +154,9 @@ module WinRM
         def max_encoded_write
           @max_encoded_write ||= begin
             empty_command = WinRM::PSRP::MessageFactory.create_pipeline_message(
-              '00000000-0000-0000-0000-000000000000',
-              '00000000-0000-0000-0000-000000000000',
-              stream_command('')
+              "00000000-0000-0000-0000-000000000000",
+              "00000000-0000-0000-0000-000000000000",
+              stream_command("")
             )
             shell.max_fragment_blob_size - empty_command.bytes.length
           end
@@ -166,7 +172,7 @@ module WinRM
         # @api private
         def reconcile_destinations!(files)
           files.each do |_, data|
-            data['dst'] = File.join(data['dst'], File.basename(data['src'])) if data['target_is_folder'] == 'True'
+            data["dst"] = File.join(data["dst"], File.basename(data["src"])) if data["target_is_folder"] == "True"
           end
         end
 
@@ -185,12 +191,12 @@ module WinRM
           zip_sha1 = sha1sum(zip_io.path)
 
           hash[zip_sha1] = {
-            'src' => dir,
-            'src_zip' => zip_io.path.to_s,
-            'zip_io' => zip_io,
-            'tmpzip' => "#{TEMP_UPLOAD_DIRECTORY}\\tmpzip-#{zip_sha1}.zip",
-            'dst' => "#{remote}\\#{File.basename(dir)}",
-            'size' => File.size(zip_io.path)
+            "src" => dir,
+            "src_zip" => zip_io.path.to_s,
+            "zip_io" => zip_io,
+            "tmpzip" => "#{TEMP_UPLOAD_DIRECTORY}\\tmpzip-#{zip_sha1}.zip",
+            "dst" => "#{remote}\\#{File.basename(dir)}",
+            "size" => File.size(zip_io.path),
           }
         end
 
@@ -203,9 +209,9 @@ module WinRM
         def add_file_hash!(hash, local, remote)
           logger.debug "creating hash for file #{remote}"
           hash[sha1sum(local)] = {
-            'src' => local,
-            'dst' => remote,
-            'size' => local.is_a?(StringIO) ? local.size : File.size(local)
+            "src" => local,
+            "dst" => remote,
+            "size" => local.is_a?(StringIO) ? local.size : File.size(local),
           }
         end
 
@@ -218,9 +224,9 @@ module WinRM
         # @return [Hash] a report hash, keyed by the local SHA1 digest
         # @api private
         def check_files(files)
-          logger.debug 'Running check_files.ps1'
+          logger.debug "Running check_files.ps1"
           hash_file = check_files_ps_hash(files)
-          script = WinRM::FS::Scripts.render('check_files', hash_file: hash_file)
+          script = WinRM::FS::Scripts.render("check_files", hash_file: hash_file)
           parse_response(shell.run(script))
         end
 
@@ -235,10 +241,10 @@ module WinRM
             [
               sha1,
               {
-                'target' => data.fetch('tmpzip', data['dst']),
-                'src_basename' => data['src'].is_a?(StringIO) ? data['dst'] : File.basename(data['src']),
-                'dst' => data['dst']
-              }
+                "target" => data.fetch("tmpzip", data["dst"]),
+                "src_basename" => data["src"].is_a?(StringIO) ? data["dst"] : File.basename(data["src"]),
+                "dst" => data["dst"],
+              },
             ]
           end
           ps_hash(Hash[hash])
@@ -250,10 +256,10 @@ module WinRM
         # @param files [Hash] a files hash
         # @api private
         def cleanup(files)
-          files.select { |_, data| data.key?('zip_io') }.each do |sha1, data|
-            data.fetch('zip_io').unlink
-            files.fetch(sha1).delete('zip_io')
-            logger.debug "Cleaned up src_zip #{data['src_zip']}"
+          files.select { |_, data| data.key?("zip_io") }.each do |sha1, data|
+            data.fetch("zip_io").unlink
+            files.fetch(sha1).delete("zip_io")
+            logger.debug "Cleaned up src_zip #{data["src_zip"]}"
           end
         end
 
@@ -270,11 +276,11 @@ module WinRM
           extracted_files = extract_files_ps_hash(files)
 
           if extracted_files == ps_hash({})
-            logger.debug 'No remote files to extract, skipping'
+            logger.debug "No remote files to extract, skipping"
             {}
           else
-            logger.debug 'Running extract_files.ps1'
-            script = WinRM::FS::Scripts.render('extract_files', hash_file: extracted_files)
+            logger.debug "Running extract_files.ps1"
+            script = WinRM::FS::Scripts.render("extract_files", hash_file: extracted_files)
 
             parse_response(shell.run(script))
           end
@@ -288,11 +294,11 @@ module WinRM
         # @return [String] the inner contents of a PowerShell Hash Table
         # @api private
         def extract_files_ps_hash(files)
-          file_data = files.select { |_, data| data.key?('tmpzip') }
+          file_data = files.select { |_, data| data.key?("tmpzip") }
 
           result = file_data.map do |sha1, data|
-            val = { 'dst' => data['dst'] }
-            val['tmpzip'] = data['tmpzip'] if data['tmpzip']
+            val = { "dst" => data["dst"] }
+            val["tmpzip"] = data["tmpzip"] if data["tmpzip"]
 
             [sha1, val]
           end
@@ -308,7 +314,7 @@ module WinRM
           total = 0 if total.nil?
           minutes = (total / 60).to_i
           seconds = (total - (minutes * 60))
-          format('(%dm%.2fs)', minutes, seconds)
+          format("(%dm%.2fs)", minutes, seconds)
         end
 
         # Contructs a Hash of files or directories, keyed by the local SHA1
@@ -329,7 +335,7 @@ module WinRM
             else
               local = local.to_s
               expanded = File.expand_path(local)
-              expanded += local[-1] if local.end_with?('/', '\\')
+              expanded += local[-1] if local.end_with?("/", "\\")
               if File.file?(expanded)
                 add_file_hash!(hash, expanded, remote)
               elsif File.directory?(expanded)
@@ -387,7 +393,7 @@ module WinRM
         # @return [String] a whitespace padded string of the given length
         # @api private
         def pad(depth = 0)
-          ' ' * depth
+          " " * depth
         end
 
         # Parses response of a PowerShell script or CMD command which contains
@@ -404,17 +410,17 @@ module WinRM
           if exitcode != 0
             raise FileTransporterFailed, "[#{self.class}] Upload failed " \
               "(exitcode: #{exitcode})\n#{stderr}"
-          elsif stderr != '\r\n' && stderr != ''
+          elsif stderr != '\r\n' && stderr != ""
             raise FileTransporterFailed, "[#{self.class}] Upload failed " \
               "(exitcode: 0), but stderr present\n#{stderr}"
           end
 
-          logger.debug 'Parsing CSV Response'
+          logger.debug "Parsing CSV Response"
           logger.debug output.stdout
 
           array = CSV.parse(output.stdout, headers: true).map(&:to_hash)
-          array.each { |h| h.each { |key, value| h[key] = nil if value == '' } }
-          Hash[array.map { |entry| [entry.fetch('src_sha1'), entry] }]
+          array.each { |h| h.each { |key, value| h[key] = nil if value == "" } }
+          Hash[array.map { |entry| [entry.fetch("src_sha1"), entry] }]
         end
 
         # Converts a Ruby hash into a PowerShell hash table, represented in a
@@ -429,10 +435,10 @@ module WinRM
         def ps_hash(obj, depth = 0)
           if obj.is_a?(Hash)
             obj.map do |k, v|
-              %(#{pad(depth + 2)}#{ps_hash(k)} = #{ps_hash(v, depth + 2)})
+              %{#{pad(depth + 2)}#{ps_hash(k)} = #{ps_hash(v, depth + 2)}}
             end.join(";\n").insert(0, "@{\n").insert(-1, "\n#{pad(depth)}}")
           else
-            %("#{obj}")
+            %{"#{obj}"}
           end
         end
 
@@ -456,7 +462,7 @@ module WinRM
           chunk = 1
           bytes = 0
           # Do not freeze this string
-          buffer = ''
+          buffer = ""
           shell.run(<<-PS
             $to = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath("#{dest}")
             $parent = Split-Path $to
@@ -486,7 +492,7 @@ module WinRM
             chunk += 1
             yield bytes if block_given?
           end
-          shell.run('$fileStream.Dispose()')
+          shell.run("$fileStream.Dispose()")
           buffer = nil # rubocop:disable Lint/UselessAssignment
 
           [chunk - 1, bytes]
@@ -515,7 +521,7 @@ module WinRM
             if src.is_a?(StringIO)
               chunks, bytes = stream_upload(src, dest, &block)
             else
-              File.open(src, 'rb') do |io|
+              File.open(src, "rb") do |io|
                 chunks, bytes = stream_upload(io, dest, &block)
               end
             end
@@ -539,16 +545,16 @@ module WinRM
         def stream_upload_files(files)
           response = {}
           files.each do |sha1, data|
-            src = data.fetch('src_zip', data['src'])
-            if data['chk_dirty'] == 'True'
-              response[sha1] = { 'dest' => data['tmpzip'] || data['dst'] }
-              chunks, bytes = stream_upload_file(src, data['tmpzip'] || data['dst']) do |xfered|
-                yield data['src'], xfered
+            src = data.fetch("src_zip", data["src"])
+            if data["chk_dirty"] == "True"
+              response[sha1] = { "dest" => data["tmpzip"] || data["dst"] }
+              chunks, bytes = stream_upload_file(src, data["tmpzip"] || data["dst"]) do |xfered|
+                yield data["src"], xfered
               end
-              response[sha1]['chunks'] = chunks
-              response[sha1]['xfered'] = bytes
+              response[sha1]["chunks"] = chunks
+              response[sha1]["xfered"] = bytes
             else
-              logger.debug "File #{data['dst']} is up to date, skipping"
+              logger.debug "File #{data["dst"]} is up to date, skipping"
             end
           end
           response
@@ -563,7 +569,7 @@ module WinRM
         # @api private
         def total_base64_transfer_size(files)
           size = 0
-          files.values.each { |file| size += file['size'] if file['chk_dirty'] == 'True' }
+          files.values.each { |file| size += file["size"] if file["chk_dirty"] == "True" }
           size / 3 * 4
         end
       end

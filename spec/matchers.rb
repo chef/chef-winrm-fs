@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'rspec/expectations'
+require "rspec/expectations"
 
 RSpec::Matchers.define :have_created do |remote_file|
   match do |file_manager|
     if @expected_content
-      downloaded_file = Tempfile.new('downloaded')
+      downloaded_file = Tempfile.new("downloaded")
       downloaded_file.close
 
       subject.download(remote_file, downloaded_file.path)
@@ -52,7 +52,7 @@ RSpec::Matchers.define :contain_zip_entries do |zip_entries|
   failure_message do |temp_zip_file|
     msg = "Expected #{temp_zip_file.path} to contain zip entries: #{@missing_entries}\n Got: "
     @zip_file.each do |entry|
-      msg << entry.name << ', '
+      msg << entry.name << ", "
     end
     msg
   end

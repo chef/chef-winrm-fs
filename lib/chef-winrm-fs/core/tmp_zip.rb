@@ -17,10 +17,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'delegate'
-require 'pathname' unless defined?(Pathname)
-require 'tempfile' unless defined?(Tempfile)
-require 'zip' unless defined?(Zip)
+require "delegate"
+require "pathname" unless defined?(Pathname)
+require "tempfile" unless defined?(Tempfile)
+require "zip" unless defined?(Zip)
 
 module WinRM
   module FS
@@ -70,7 +70,7 @@ module WinRM
         def initialize(dir, logger = nil)
           @logger = logger || Logging.logger[self]
           @dir = clean_dirname(dir)
-          @zip_io = Tempfile.open(['tmpzip-', '.zip'], binmode: true)
+          @zip_io = Tempfile.open(["tmpzip-", ".zip"], binmode: true)
           write_zip
           @zip_io.close
         end
@@ -113,13 +113,13 @@ module WinRM
         #   directory, excluding directories
         # @api private
         def entries
-          Pathname.glob(dir.join('**/.*')).push(*Pathname.glob(dir.join('**/*'))).delete_if(&:directory?).sort
+          Pathname.glob(dir.join("**/.*")).push(*Pathname.glob(dir.join("**/*"))).delete_if(&:directory?).sort
         end
 
         # (see Logging.log_subject)
         # @api private
         def log_subject
-          @log_subject ||= [self.class.to_s.split('::').last, path].join('::')
+          @log_subject ||= [self.class.to_s.split("::").last, path].join("::")
         end
 
         # Adds all file entries to the Zip output stream.
@@ -134,16 +134,16 @@ module WinRM
               zip_entry(entry_path),
               nil, nil, ::Zip::Entry::DEFLATED, Zlib::BEST_COMPRESSION
             )
-            entry.open('rb') { |src| IO.copy_stream(src, zos) }
+            entry.open("rb") { |src| IO.copy_stream(src, zos) }
           end
-          logger.debug '=== All files added.'
+          logger.debug "=== All files added."
         end
 
         # Writes out a temporary Zip file.
         #
         # @api private
         def write_zip
-          logger.debug 'Populating files'
+          logger.debug "Populating files"
           Zip::OutputStream.write_buffer(NoDupIO.new(zip_io)) do |zos|
             produce_zip_entries(zos)
           end
