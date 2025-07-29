@@ -18,11 +18,6 @@
 # limitations under the License.
 
 require "benchmark" unless defined?(Benchmark)
-
-# require "pry"
-# require "pry-byebug" if defined?(PryByebug)
-# binding.pry
-
 require "csv" unless defined?(CSV)
 require "digest" unless defined?(Digest)
 require "securerandom" unless defined?(SecureRandom)
