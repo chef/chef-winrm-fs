@@ -16,14 +16,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-$VERBOSE = true
 
 require "benchmark" unless defined?(Benchmark)
-
-# require "pry"
-# require "pry-byebug" if defined?(PryByebug)
-# binding.pry
-
 require "csv" unless defined?(CSV)
 require "digest" unless defined?(Digest)
 require "securerandom" unless defined?(SecureRandom)
