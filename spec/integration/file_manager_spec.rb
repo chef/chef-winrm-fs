@@ -7,7 +7,7 @@ describe WinRM::FS::FileManager do
   let(:upload_dir) { "winrm_#{rand(2**16)}" }
   let(:dest_dir) { File.join(subject.temp_dir, upload_dir) }
   let(:temp_upload_dir) { "$env:TEMP/winrm-upload" }
-  let(:spec_dir) { File.expand_path(File.dirname(File.dirname(__FILE__))) }
+  let(:spec_dir) { File.expand_path(File.dirname(__FILE__, 2)) }
   let(:this_file) { Pathname.new(__FILE__) }
   let(:service) { winrm_connection }
 
