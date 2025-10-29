@@ -32,9 +32,9 @@ Gem::Specification.new do |s|
   s.add_dependency "logging", [">= 1.6.1", "< 3.0"]
   s.add_dependency "rubyzip", "~> 2.0"
   s.add_dependency "csv", "~> 3.3"
-  s.add_dependency "benchmark", "~> 0.4.0"
+  s.add_dependency "benchmark", "~> 0.5.0"
   s.add_development_dependency "pry"
   s.add_development_dependency "rake", ">= 13.2.1"
   s.add_development_dependency "rspec", "~> 3.0"
-  s.add_development_dependency "cookstyle", "~> 8.1"
+  s.add_development_dependency "cookstyle", "~> 8.5"
 end
