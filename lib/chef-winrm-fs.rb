@@ -16,7 +16,6 @@
 # limitations under the License.
 
 require "chef-winrm" unless defined?(WinRM::Connection)
-require "logger"
 require "pathname" unless defined?(Pathname)
 require_relative "chef-winrm-fs/exceptions"
 require_relative "chef-winrm-fs/file_manager"
