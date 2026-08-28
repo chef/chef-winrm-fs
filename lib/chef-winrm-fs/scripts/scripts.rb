@@ -21,13 +21,20 @@ module WinRM
   module FS
     # PS1 scripts
     module Scripts
+      # Compiled template sources, keyed by template name. The .ps1.erb files
+      # ship inside the gem and cannot change while it is loaded, so reading
+      # and compiling one more than once is wasted work.
+      COMPILED = {} # rubocop:disable Style/MutableConstant
+
       # rubocop:disable Metrics/MethodLength
       def self.render(template, context)
         # rubocop:enable Metrics/MethodLength
-        template_path = File.expand_path(
-          "#{File.dirname(__FILE__)}/#{template}.ps1.erb"
-        )
-        template = File.read(template_path)
+        src = COMPILED[template] ||= begin
+          template_path = File.expand_path(
+            "#{File.dirname(__FILE__)}/#{template}.ps1.erb"
+          )
+          Erubi::Engine.new(File.read(template_path)).src.freeze
+        end
         case context
         when Hash
           b = binding
@@ -40,7 +47,7 @@ module WinRM
         else
           raise ArgumentError
         end
-        b.eval(Erubi::Engine.new(template).src)
+        b.eval(src)
       end
     end
   end
