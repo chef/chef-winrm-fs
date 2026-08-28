@@ -113,7 +113,22 @@ module WinRM
         #   directory, excluding directories
         # @api private
         def entries
-          Pathname.glob(dir.join("**/.*")).push(*Pathname.glob(dir.join("**/*"))).delete_if(&:directory?).sort
+          paths = Dir.glob(dir.join("**/.*").to_s)
+          paths.concat(Dir.glob(dir.join("**/*").to_s))
+          paths.reject! { |path| File.directory?(path) }
+          # Pathname#<=> orders paths with "/" sorting below every other
+          # character. Building that key once per entry reproduces the ordering
+          # of Array#sort over Pathnames without re-translating both operands on
+          # every comparison, which keeps the resulting zip byte-identical.
+          paths.sort_by! { |path| path.tr("/", "\0") }
+          paths.map! { |path| Pathname.new(path) }
+        end
+
+        # @return [String] the base directory with exactly one trailing
+        #   separator, so entry paths can be made relative by stripping it
+        # @api private
+        def entry_prefix
+          @entry_prefix ||= dir.to_s.sub(%r{/*\z}, "/")
         end
 
         # (see Logging.log_subject)
@@ -128,7 +143,7 @@ module WinRM
         # @api private
         def produce_zip_entries(zos)
           entries.each do |entry|
-            entry_path = entry.relative_path_from(dir)
+            entry_path = entry.to_s.delete_prefix(entry_prefix)
             logger.debug "+++ Adding #{entry_path}"
             zos.put_next_entry(zip_entry(entry_path))
             entry.open("rb") { |src| IO.copy_stream(src, zos) }
@@ -149,7 +164,7 @@ module WinRM
         def zip_entry(entry_path)
           Zip::Entry.new(
             zip_io.path,
-            entry_path.to_s,
+            entry_path,
             compression_method: ::Zip::Entry::DEFLATED,
             compression_level: Zlib::BEST_COMPRESSION,
             time: ::Zip::DOSTime.new(2000)
