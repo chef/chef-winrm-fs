@@ -64,21 +64,23 @@ module WinRM
       # rubocop:disable Metrics/MethodLength
       def download(remote_path, local_path, chunk_size = 1024 * 1024, first = true)
         @logger.debug("downloading: #{remote_path} -> #{local_path} #{chunk_size}")
-        index = 0
-        output = _output_from_file(remote_path, chunk_size, index)
-        return download_dir(remote_path, local_path, chunk_size, first) if output.exitcode == 2
+        with_shell do
+          index = 0
+          output = _output_from_file(remote_path, chunk_size, index)
+          return download_dir(remote_path, local_path, chunk_size, first) if output.exitcode == 2
 
-        return false if output.exitcode >= 1
+          return false if output.exitcode >= 1
 
-        File.open(local_path, "wb") do |fd|
-          out = _write_file(fd, output)
-          index += out.length
-          until out.empty?
-            output = _output_from_file(remote_path, chunk_size, index)
-            return false if output.exitcode >= 1
-
+          File.open(local_path, "wb") do |fd|
             out = _write_file(fd, output)
             index += out.length
+            until out.empty?
+              output = _output_from_file(remote_path, chunk_size, index)
+              return false if output.exitcode >= 1
+
+              out = _write_file(fd, output)
+              index += out.length
+            end
           end
         end
         true
@@ -150,6 +152,8 @@ module WinRM
       private
 
       def ps_run(cmd)
+        return @shell.run(cmd) if @shell
+
         shell = @connection.shell(:powershell)
         begin
           shell.run(cmd)
@@ -158,11 +162,27 @@ module WinRM
         end
       end
 
+      # Holds a single PowerShell shell open for the duration of the block, so
+      # that a transfer spanning many chunks pays to open and close a remote
+      # runspace once rather than once per chunk. Re-entrant: a nested call
+      # reuses the shell that is already open.
+      def with_shell
+        return yield if @shell
+
+        @shell = @connection.shell(:powershell)
+        begin
+          yield
+        ensure
+          @shell.close
+          @shell = nil
+        end
+      end
+
       def download_dir(remote_path, local_path, chunk_size, first)
         local_path = File.join(local_path, File.basename(remote_path.to_s)) if first
         FileUtils.mkdir_p(local_path) unless File.directory?(local_path)
         command = "Get-ChildItem #{remote_path} | Select-Object Name"
-        @connection.shell(:powershell) { |e| e.run(command) }.stdout.strip.split("\n").drop(2).each do |file|
+        ps_run(command).stdout.strip.split("\n").drop(2).each do |file|
           download(File.join(remote_path.to_s, file.strip), File.join(local_path, file.strip), chunk_size, false)
         end
       end
