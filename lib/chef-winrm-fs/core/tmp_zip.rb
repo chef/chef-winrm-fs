@@ -130,10 +130,7 @@ module WinRM
           entries.each do |entry|
             entry_path = entry.relative_path_from(dir)
             logger.debug "+++ Adding #{entry_path}"
-            zos.put_next_entry(
-              zip_entry(entry_path),
-              nil, nil, ::Zip::Entry::DEFLATED, Zlib::BEST_COMPRESSION
-            )
+            zos.put_next_entry(zip_entry(entry_path))
             entry.open("rb") { |src| IO.copy_stream(src, zos) }
           end
           logger.debug "=== All files added."
@@ -153,8 +150,9 @@ module WinRM
           Zip::Entry.new(
             zip_io.path,
             entry_path.to_s,
-            nil, nil, nil, nil, nil, nil,
-            ::Zip::DOSTime.new(2000)
+            compression_method: ::Zip::Entry::DEFLATED,
+            compression_level: Zlib::BEST_COMPRESSION,
+            time: ::Zip::DOSTime.new(2000)
           )
         end
 
