@@ -93,9 +93,11 @@ module WinRM
       end
 
       def _write_file(tofd, output)
-        contents = output.stdout.gsub('\n\r', "")
-        out = Base64.decode64(contents)
-        out = out[0, out.length - 1] if out.end_with? "\x00"
+        # Base64 decoding already discards any bytes outside the Base64
+        # alphabet, so the payload needs no scrubbing pass of its own.
+        out = output.stdout.unpack1("m")
+        # download.ps1.erb reads $chunk[0..$bytesRead], one byte past the data.
+        out.delete_suffix!("\x00")
         return out if out.empty?
 
         tofd.write(out)
