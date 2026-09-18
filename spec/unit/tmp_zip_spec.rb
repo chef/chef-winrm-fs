@@ -76,6 +76,47 @@ describe WinRM::FS::Core::TmpZip do
     end
   end
 
+  describe "entry ordering" do
+    # Pathname#<=> sorts "/" below every other character, so a nested entry
+    # under "a/" precedes a sibling file named "a-b". Zip entry order decides
+    # the archive bytes, and therefore the SHA1 the dirty check relies on, so
+    # this ordering has to hold.
+    let(:src_dir) do
+      tmpdir = Pathname.new(Dir.mktmpdir)
+      @tmpdirs << tmpdir
+      src_dir = tmpdir.join("src")
+      src_dir.join("a").mkpath
+      create_local_file(src_dir.join("a", "b"), "nested")
+      %w{a-b a.b a0b ab}.each { |name| create_local_file(src_dir.join(name), name) }
+      src_dir
+    end
+
+    it "sorts nested entries ahead of sibling files that differ after the separator" do
+      zip = Zip::File.new(tmp_zip.path)
+
+      expect(zip.map(&:name)).to eq(%w{a/b a-b a.b a0b ab})
+    end
+  end
+
+  describe "for a directory containing a dot-directory" do
+    let(:src_dir) do
+      tmpdir = Pathname.new(Dir.mktmpdir)
+      @tmpdirs << tmpdir
+      src_dir = tmpdir.join("src")
+      src_dir.join(".hidden").mkpath
+      create_local_file(src_dir.join(".dotfile"), "dotfile")
+      create_local_file(src_dir.join(".hidden", "inside.txt"), "inside")
+      create_local_file(src_dir.join("plain.txt"), "plain")
+      src_dir
+    end
+
+    it "includes dotfiles but does not descend into dot-directories" do
+      zip = Zip::File.new(tmp_zip.path)
+
+      expect(zip.map(&:name).sort).to eq([".dotfile", "plain.txt"])
+    end
+  end
+
   def create_local_file(path, content)
     path.open("wb") { |file| file.write(content) }
   end
