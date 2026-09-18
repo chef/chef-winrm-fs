@@ -43,7 +43,6 @@ This repository contains **chef-winrm-fs**, a Ruby gem providing file system ope
 ├── LICENSE                    # Apache 2.0 License
 ├── VERSION                    # Version file
 ├── changelog.md              # Release notes
-├── appveyor.yml              # Windows CI (legacy)
 └── Vagrantfile               # Development VM setup
 ```
 

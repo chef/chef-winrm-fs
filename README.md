@@ -1,7 +1,6 @@
 # File system operations over Windows Remote Management (WinRM) for Ruby
 [![Build Status](https://travis-ci.org/WinRb/winrm-fs.svg?branch=master)](https://travis-ci.org/WinRb/winrm-fs)
 [![Gem Version](https://badge.fury.io/rb/winrm-fs.svg)](http://badge.fury.io/rb/winrm-fs)
-[![Build status](https://ci.appveyor.com/api/projects/status/wm6apa8ojfhfmwsf?svg=true)](https://ci.appveyor.com/project/winrb/winrm-fs)
 
 ## Uploading files
 Files may be copied from the local machine to the winrm endpoint. Individual files or directories, as well as arrays of files and directories may be specified. Data from a `StringIO` object may also be uploaded to a remote file.
