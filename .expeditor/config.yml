@@ -4,17 +4,11 @@
 slack:
   notify_channel: chef-notify
 
-# TODO: Expeditor validates ownership of every gem listed here (and that
-# check runs as soon as a gem is listed, independent of whether
-# built_in:build_gem/publish_rubygems are actually invoked). Currently only
-# "hayfever76" is registered as an owner of chef-winrm-fs on rubygems.org, and
-# Expeditor's Config Validation check fails with "Expeditor cannot publish
-# gem because its new and/or rubygems@chef.io is not an owner" whenever this
-# key (and the related built_in:build_gem/built_in:publish_rubygems actions
-# below) are present. Request rubygems@chef.io ownership via the #chef-dev
-# Slack channel, then uncomment this block and the related actions below.
-# rubygems:
-#   - chef-winrm-fs
+# This is required so Expeditor knows which gem(s) `built_in:build_gem` and
+# `built_in:publish_rubygems` operate on. rubygems@chef.io ("chef" user) now
+# has owner access to chef-winrm-fs on rubygems.org.
+rubygems:
+  - chef-winrm-fs
 
 github:
   # This deletes the GitHub PR branch after successfully merged into the release branch
@@ -49,14 +43,10 @@ subscriptions:
           ignore_labels:
             - "Expeditor: Skip Changelog"
             - "Expeditor: Skip All"
-      # TODO: re-enable once rubygems@chef.io is an owner of chef-winrm-fs on
-      # rubygems.org (see TODO above the `rubygems:` key).
-      # - built_in:build_gem:
-      #     only_if: built_in:bump_version
+      - built_in:build_gem:
+          only_if: built_in:bump_version
 
   - workload: project_promoted:{{agent_id}}:*
     actions:
       - built_in:rollover_changelog
-      # TODO: re-enable once rubygems@chef.io is an owner of chef-winrm-fs on
-      # rubygems.org (see TODO above the `rubygems:` key).
-      # - built_in:publish_rubygems
+      - built_in:publish_rubygems
