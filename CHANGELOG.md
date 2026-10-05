@@ -1,8 +1,20 @@
 # WinRM-fs Gem Changelog
+
+<!-- latest_release 1.4.2 -->
+## 1.4.2
+- Restore VERSION to 1.4.2 and require rubyzip >= 3.4
+<!-- latest_release -->
+
+<!-- release_rollup since=1.4.2 -->
+### Changes not yet released to rubygems.org
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 # 1.3.5
 - Optimize requires
 - Ensure connections are closed
 - Include dot files
+<!-- latest_stable_release -->
 
 # 1.3.4
 - Bump rubyzip dependency
