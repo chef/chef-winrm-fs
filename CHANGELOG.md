@@ -1,18 +1,17 @@
 # WinRM-fs Gem Changelog
 
-<!-- latest_release 1.4.3 -->
-## [chef-winrm-fs-1.4.3](https://github.com/chef/chef-winrm-fs/tree/chef-winrm-fs-1.4.3) (2026-10-05)
+<!-- latest_release 1.4.4 -->
+## [v1.4.4](https://github.com/chef/chef-winrm-fs/tree/v1.4.4) (2026-10-05)
 
 #### Merged Pull Requests
-- Re-enable Expeditor gem build/publish now that rubygems@chef.io owns chef-winrm-fs [#31](https://github.com/chef/chef-winrm-fs/pull/31) ([neha-p6](https://github.com/neha-p6))
-- Fix Expeditor verify pipeline Windows Docker image [#32](https://github.com/chef/chef-winrm-fs/pull/32) ([neha-p6](https://github.com/neha-p6))
-- Add Chef Expeditor version bump, labeling, and gem release [#27](https://github.com/chef/chef-winrm-fs/pull/27) ([tpowell-progress](https://github.com/tpowell-progress))
+- Backfill CHANGELOG.md with missing pre-Expeditor pull requests [#34](https://github.com/chef/chef-winrm-fs/pull/34) ([neha-p6](https://github.com/neha-p6))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.4.2 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Backfill CHANGELOG.md with missing pre-Expeditor pull requests [#34](https://github.com/chef/chef-winrm-fs/pull/34) ([neha-p6](https://github.com/neha-p6)) <!-- 1.4.4 -->
 - Re-enable Expeditor gem build/publish now that rubygems@chef.io owns chef-winrm-fs [#31](https://github.com/chef/chef-winrm-fs/pull/31) ([neha-p6](https://github.com/neha-p6)) <!-- 1.4.3 -->
 - Fix Expeditor verify pipeline Windows Docker image [#32](https://github.com/chef/chef-winrm-fs/pull/32) ([neha-p6](https://github.com/neha-p6)) <!-- 1.4.3 -->
 - Add Chef Expeditor version bump, labeling, and gem release [#27](https://github.com/chef/chef-winrm-fs/pull/27) ([tpowell-progress](https://github.com/tpowell-progress)) <!-- 1.4.3 -->
