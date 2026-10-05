@@ -1,20 +1,9 @@
 # WinRM-fs Gem Changelog
 
-<!-- latest_release 1.4.4 -->
-## [v1.4.4](https://github.com/chef/chef-winrm-fs/tree/v1.4.4) (2026-10-05)
-
-#### Merged Pull Requests
-- Backfill CHANGELOG.md with missing pre-Expeditor pull requests [#34](https://github.com/chef/chef-winrm-fs/pull/34) ([neha-p6](https://github.com/neha-p6))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.4.2 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Backfill CHANGELOG.md with missing pre-Expeditor pull requests [#34](https://github.com/chef/chef-winrm-fs/pull/34) ([neha-p6](https://github.com/neha-p6)) <!-- 1.4.4 -->
-- Re-enable Expeditor gem build/publish now that rubygems@chef.io owns chef-winrm-fs [#31](https://github.com/chef/chef-winrm-fs/pull/31) ([neha-p6](https://github.com/neha-p6)) <!-- 1.4.3 -->
-- Fix Expeditor verify pipeline Windows Docker image [#32](https://github.com/chef/chef-winrm-fs/pull/32) ([neha-p6](https://github.com/neha-p6)) <!-- 1.4.3 -->
-- Add Chef Expeditor version bump, labeling, and gem release [#27](https://github.com/chef/chef-winrm-fs/pull/27) ([tpowell-progress](https://github.com/tpowell-progress)) <!-- 1.4.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 ## 1.4.2
@@ -41,11 +30,19 @@ _Backfilled: VERSION was bumped manually (outside Expeditor) across these merges
 - CHEF-24143 switch off verbosity [#8](https://github.com/chef/chef-winrm-fs/pull/8) ([sathish-progress](https://github.com/sathish-progress))
 
 <!-- latest_stable_release -->
+## [v1.4.4](https://github.com/chef/chef-winrm-fs/tree/v1.4.4) (2026-10-05)
+
+#### Merged Pull Requests
+- Add Chef Expeditor version bump, labeling, and gem release [#27](https://github.com/chef/chef-winrm-fs/pull/27) ([tpowell-progress](https://github.com/tpowell-progress))
+- Fix Expeditor verify pipeline Windows Docker image [#32](https://github.com/chef/chef-winrm-fs/pull/32) ([neha-p6](https://github.com/neha-p6))
+- Re-enable Expeditor gem build/publish now that rubygems@chef.io owns chef-winrm-fs [#31](https://github.com/chef/chef-winrm-fs/pull/31) ([neha-p6](https://github.com/neha-p6))
+- Backfill CHANGELOG.md with missing pre-Expeditor pull requests [#34](https://github.com/chef/chef-winrm-fs/pull/34) ([neha-p6](https://github.com/neha-p6))
+<!-- latest_stable_release -->
+
 # 1.3.5
 - Optimize requires
 - Ensure connections are closed
 - Include dot files
-<!-- latest_stable_release -->
 
 # 1.3.4
 - Bump rubyzip dependency
