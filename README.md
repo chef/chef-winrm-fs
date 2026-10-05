@@ -1,6 +1,7 @@
 # File system operations over Windows Remote Management (WinRM) for Ruby
-[![Build Status](https://travis-ci.org/WinRb/winrm-fs.svg?branch=master)](https://travis-ci.org/WinRb/winrm-fs)
-[![Gem Version](https://badge.fury.io/rb/winrm-fs.svg)](http://badge.fury.io/rb/winrm-fs)
+[![Unit Tests](https://github.com/chef/chef-winrm-fs/actions/workflows/unit.yml/badge.svg?branch=main)](https://github.com/chef/chef-winrm-fs/actions/workflows/unit.yml)
+[![Lint](https://github.com/chef/chef-winrm-fs/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/chef/chef-winrm-fs/actions/workflows/lint.yml)
+[![Gem Version](https://img.shields.io/gem/v/chef-winrm-fs.svg)](https://rubygems.org/gems/chef-winrm-fs)
 
 ## Uploading files
 Files may be copied from the local machine to the winrm endpoint. Individual files or directories, as well as arrays of files and directories may be specified. Data from a `StringIO` object may also be uploaded to a remote file.
@@ -28,7 +29,7 @@ file_manager.upload([
 ```
 
 ### Optimizing WinRM settings
-Since winrm-fs 1.0/winrm 2.0, files are uploaded using the PSRP protocol and transfer speeds are dramatically improved from previous versions. This is largely due to the fact that the size of chunks that can be transferred at one time are now governed by the `MaxEnvelopeSizekb` winrm configuration setting on the endpoint. This default to 500 on Windows 2012 R2 and 150 on Windows 2008 R2. You may experience much faster transfer rates on 2008 R2 by increasing this setting.
+Files are uploaded using the PSRP protocol, and the size of chunks that can be transferred at one time is governed by the `MaxEnvelopeSizekb` winrm configuration setting on the endpoint. This defaults to 500 KB on Windows Server 2022 and Windows Server 2025. You may experience faster transfer rates by increasing this setting on the endpoint.
 
 ### Handling progress events
 If you want to implement your own custom progress handling, you can pass a code
@@ -52,7 +53,7 @@ first.
 3. Run the unit and integration tests (bundle exec rake integration)
 4. Commit your changes (git commit -am "Added a sweet feature")
 5. Push to the branch (git push origin my_feature_branch)
-6. Create a pull requst from your branch into master (Please be sure to provide enough detail for us to cipher what this change is doing)
+6. Create a pull request from your branch into main (Please be sure to provide enough detail for us to cipher what this change is doing)
 
 ### Running the tests
 
