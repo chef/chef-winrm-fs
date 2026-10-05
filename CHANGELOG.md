@@ -1,12 +1,17 @@
 # WinRM-fs Gem Changelog
 
-<!-- latest_release 1.4.2 -->
-## 1.4.2
-- Restore VERSION to 1.4.2 and require rubyzip >= 3.4
+<!-- latest_release 1.4.3 -->
+## [chef-winrm-fs-1.4.3](https://github.com/chef/chef-winrm-fs/tree/chef-winrm-fs-1.4.3) (2026-10-05)
+
+#### Merged Pull Requests
+- Re-enable Expeditor gem build/publish now that rubygems@chef.io owns chef-winrm-fs [#31](https://github.com/chef/chef-winrm-fs/pull/31) ([neha-p6](https://github.com/neha-p6))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.4.2 -->
 ### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Re-enable Expeditor gem build/publish now that rubygems@chef.io owns chef-winrm-fs [#31](https://github.com/chef/chef-winrm-fs/pull/31) ([neha-p6](https://github.com/neha-p6)) <!-- 1.4.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
