@@ -1,4 +1,4 @@
-# WinRM-fs Gem Changelog
+# Chef-WinRM-fs Gem Changelog
 
 <!-- latest_release 1.4.3 -->
 ## [chef-winrm-fs-1.4.3](https://github.com/chef/chef-winrm-fs/tree/chef-winrm-fs-1.4.3) (2026-10-05)
