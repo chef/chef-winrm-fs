@@ -5,13 +5,10 @@
 
 #### Merged Pull Requests
 - Re-enable Expeditor gem build/publish now that rubygems@chef.io owns chef-winrm-fs [#31](https://github.com/chef/chef-winrm-fs/pull/31) ([neha-p6](https://github.com/neha-p6))
+- Update Rubyzip version to get past CVE-2026-85396.
 <!-- latest_release -->
 
-<!-- release_rollup since=1.4.2 -->
-### Changes not yet released to rubygems.org
 
-#### Merged Pull Requests
-- Re-enable Expeditor gem build/publish now that rubygems@chef.io owns chef-winrm-fs [#31](https://github.com/chef/chef-winrm-fs/pull/31) ([neha-p6](https://github.com/neha-p6)) <!-- 1.4.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
