@@ -8,7 +8,6 @@
 - Update Rubyzip version to get past CVE-2026-85396.
 <!-- latest_release -->
 
-
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
