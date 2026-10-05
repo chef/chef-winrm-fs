@@ -4,9 +4,13 @@
 slack:
   notify_channel: chef-notify
 
-# This publish is triggered by the `built_in:publish_rubygems` artifact_action.
-rubygems:
-  - chef-winrm-fs
+# TODO: Re-enable rubygems publishing once rubygems@chef.io is added as an
+# owner of the chef-winrm-fs gem on rubygems.org (currently only "hayfever76"
+# is listed as an owner). Expeditor refuses to proceed when it isn't an owner
+# of a pre-existing gem. Request ownership via the #chef-dev Slack channel,
+# then uncomment the block below and the `built_in:publish_rubygems` action.
+# rubygems:
+#   - chef-winrm-fs
 
 github:
   # This deletes the GitHub PR branch after successfully merged into the release branch
@@ -47,4 +51,6 @@ subscriptions:
   - workload: project_promoted:{{agent_id}}:*
     actions:
       - built_in:rollover_changelog
-      - built_in:publish_rubygems
+      # TODO: re-enable once rubygems@chef.io is an owner of chef-winrm-fs on
+      # rubygems.org (see TODO above the `rubygems:` key).
+      # - built_in:publish_rubygems
