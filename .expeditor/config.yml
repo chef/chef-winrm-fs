@@ -22,6 +22,7 @@ release_branches:
       version_constraint: "1.*"
 
 changelog:
+  file: changelog.md
   rollup_header: Changes not yet released to rubygems.org
 
 pipelines:
